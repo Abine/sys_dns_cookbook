@@ -34,7 +34,7 @@ module RightScale
     end # class DNS
 
     class AWS < DNS
-      def action_set(id, user, password, address, options = {})
+      def action_set(id, user, password, address, ttl, options = {})
         zone_id, hostname = id.split(':')
 
         current_ip= `dig +short #{hostname}`.chomp
@@ -55,7 +55,7 @@ EOF
         # Generating record update xml
         endpoint = "https://route53.amazonaws.com/2010-10-01/"
         xml_doc = "https://route53.amazonaws.com/doc/2010-10-01/"
-        ttl = 60
+        ttl = ttl
         record_type = 'A'
 
         modify_cmd=<<EOF

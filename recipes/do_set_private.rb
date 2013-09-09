@@ -14,4 +14,5 @@ sys_dns "default" do
   address node[:cloud][:private_ips][0]
   region node[:sys_dns][:region]
   action :set
+  ttl node[:sys_dns][:ttl]
 end

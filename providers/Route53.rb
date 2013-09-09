@@ -11,7 +11,7 @@ action :set do
 
   # Creates an instance of the AWS class (found in cookbooks/sys_dns/libraries/helper.rb)
   # and calls the 'action_set' method with proper parameters.
-  RightScale::DnsTools::AWS.new(Chef::Log).action_set(new_resource.id, new_resource.user, new_resource.password, new_resource.address)
+  RightScale::DnsTools::AWS.new(Chef::Log).action_set(new_resource.id, new_resource.user, new_resource.password, new_resource.address, new_resource.ttl)
 
   log "==================== sys_dns(:set) Route53   END ==================== "
 end
