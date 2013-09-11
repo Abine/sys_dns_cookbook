@@ -1,22 +1,27 @@
 maintainer       "RightScale, Inc."
 maintainer_email "support@rightscale.com"
 license          "Copyright RightScale, Inc. All rights reserved."
-description      "Installs/Configures sys_dns"
+description      "This cookbook provides a set of dynamic DNS recipes used by" +
+                 " RightScale ServerTemplates including Database Manager" +
+                 " ServerTemplates. Cookbook currently supports DNSMadeEasy," +
+                 " DynDns, CloudDNS, and Amazon Route53 DNS service providers."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "13.4.0"
+version          "13.5.0"
 
-# supports "centos", "~> 5.8", "~> 6"
-# supports "redhat", "~> 5.8"
-# supports "ubuntu", "~> 10.04", "~> 12.04"
+supports "centos"
+supports "redhat"
+supports "ubuntu"
 
 depends "rightscale"
 
 recipe "sys_dns::default",
   "Installs tools needed by chosen DNS provider."
-recipe "sys_dns::do_set_public", "Sets the dynamic DNS entry to the first public IP of the server."
 
 recipe "sys_dns::do_set_private",
   "Sets the dynamic DNS entry to the first private IP of the server."
+
+recipe "sys_dns::do_set_public",
+  "Sets the dynamic DNS entry to the first public IP of the server."
 
 attribute "sys_dns/choice",
   :display_name => "DNS Service Provider",
@@ -28,7 +33,11 @@ attribute "sys_dns/choice",
     " Example: DNSMadeEasy ",
   :required => "required",
   :choice => ["DNSMadeEasy", "DynDNS", "Route53", "CloudDNS"],
-  :recipes => ["sys_dns::do_set_private", "sys_dns::default", "sys_dns::do_set_public"]
+  :recipes => [
+    "sys_dns::do_set_private",
+    "sys_dns::do_set_public",
+    "sys_dns::default"
+  ]
 
 attribute "sys_dns/id",
   :display_name => "DNS Record ID",
@@ -53,7 +62,11 @@ attribute "sys_dns/user",
     " (e.g., cred:AWS_ACCESS_KEY_ID). For CloudDNS, enter your login username" +
     " (e.g., cred:RACKSPACE_USERNAME). Example: cred:CLOUD_ACCOUNT_USERNAME",
   :required => "required",
-  :recipes => ["sys_dns::do_set_private", "sys_dns::default", "sys_dns::do_set_public"]
+  :recipes => [
+    "sys_dns::do_set_private",
+    "sys_dns::do_set_public",
+    "sys_dns::default"
+  ]
 
 attribute "sys_dns/password",
   :display_name => "DNS Password",
@@ -65,7 +78,11 @@ attribute "sys_dns/password",
     " enter your API key (e.g., cred:RACKSPACE_AUTH_KEY)." +
     " Example: cred:CLOUD_ACCOUNT_KEY ",
   :required => "required",
-  :recipes => ["sys_dns::do_set_private", "sys_dns::default", "sys_dns::do_set_public"]
+  :recipes => [
+    "sys_dns::do_set_private",
+    "sys_dns::do_set_public",
+    "sys_dns::default"
+  ]
 
 attribute "sys_dns/region",
   :display_name => "Cloud DNS region",
@@ -74,7 +91,12 @@ attribute "sys_dns/region",
     " Example: Chicago",
   :required => "optional",
   :choice => ["Chicago", "Dallas", "London"],
-  :recipes => ["sys_dns::do_set_private", "sys_dns::default", "sys_dns::do_set_public"]
+  :recipes => [
+    "sys_dns::do_set_private",
+    "sys_dns::do_set_public",
+    "sys_dns::default"
+  ]
+
 
 attribute "sys_dns/ttl",
   :display_name => "Route 53 Time-To-Live",
